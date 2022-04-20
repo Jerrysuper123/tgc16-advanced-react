@@ -20,7 +20,7 @@ export default function PostPage() {
 
   useEffect(() => {
     setCurrentPostId(params.post_id);
-  }, [params.post_id]);
+  }, []);
 
   return (
     <React.Fragment>

@@ -1,8 +1,10 @@
+import ProductContext from "./ProductContext.js";
 import React from "react";
+import ProductListing from "./ProductListing.js";
+import AddProduct from "./AddProduct.js";
 import { useState } from "react";
-import ProductContext from "./ProductContext";
 
-export default function ProductProvider(props) {
+function App() {
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -13,11 +15,6 @@ export default function ProductProvider(props) {
       id: 2,
       product_name: "mocksd",
       cost: 16,
-    },
-    {
-      id: 3,
-      product_name: "bird",
-      cost: 17,
     },
   ]);
 
@@ -34,6 +31,8 @@ export default function ProductProvider(props) {
     //this is where we go the axios call
     addProduct: (productName, cost) => {
       let id = Math.floor(Math.random() * 10000 + 9999);
+
+      // make erros, [...products,{}]
       setProducts([
         ...products,
         {
@@ -43,18 +42,18 @@ export default function ProductProvider(props) {
         },
       ]);
     },
-
-    getProductByID: (productId) => {
-      // filter return array, we only need the first item
-      return products.filter((p) => p.id === productId)[0];
-    },
   };
 
-  //higher order component - its props contain a component
   return (
     <ProductContext.Provider value={context}>
-      {/* render all the children component with the context */}
-      {props.children}
+      {/* only children of productContext can access the context */}
+      <React.Fragment>
+        <h1>App</h1>
+        <ProductListing />
+        <AddProduct />
+      </React.Fragment>
     </ProductContext.Provider>
   );
 }
+
+export default App;
